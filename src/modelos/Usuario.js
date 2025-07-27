@@ -18,6 +18,38 @@ class Usuario {
     const { rows } = await pool.query(query, [id]);
     return rows[0];
   }
+
+  // API HEADERS
+   static async findByIdd(id) {
+    const query = `
+       SELECT u.*, r.nombre as rol 
+      FROM appEducativa.usuarios u
+      JOIN appEducativa.roles r ON u.rol_id = r.id
+      WHERE u.id = $1
+    `;
+    const { rows } = await pool.query(query, [id]);
+    return rows[0];
+  }
+ 
+  static async getUserProfile(id) {
+    try {
+      const user = await Usuario.findByIdd(id);
+      if (!user) {
+        throw new Error('Usuario no encontrado');
+      }
+      
+      // Eliminar información sensible
+      const { password_hash, ...userData } = user;
+      return userData;
+    } catch (error) {
+      console.error('Error en UserService.getUserProfile:', error);
+      throw error;
+    }
+  }
+
 }
+
+
+
 
 export default Usuario;

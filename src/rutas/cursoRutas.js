@@ -1,20 +1,10 @@
-const express = require('express');
-const router = express.Router();
-const cursoControlador = require('../controladores/cursoControlador');
+// routes/cursoRoutes.js
+import { Router } from 'express';
+import { cursoController } from '../controladores/cursoControlador.js';
 
-// Obtener todos los cursos
-router.get('/', cursoControlador.getCursos);
+const router = Router();
 
-// Obtener un curso por ID
-router.get('/:id', cursoControlador.getCursoById);
+// Proteger esta ruta con autenticación
+router.get('/mis-cursos/:estudianteId', cursoController.getCursosByEstudiante);
 
-// Crear un nuevo curso
-router.post('/', cursoControlador.createCurso);
-
-// Actualizar un curso
-router.put('/:id', cursoControlador.updateCurso);
-
-// Eliminar un curso
-router.delete('/:id', cursoControlador.deleteCurso);
-
-module.exports = router;
+export default router;

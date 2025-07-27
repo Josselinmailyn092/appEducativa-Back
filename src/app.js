@@ -1,4 +1,4 @@
-// src/app.js
+// src/app.js (versión corregida)
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
@@ -7,9 +7,11 @@ import bodyParser from 'body-parser';
 import { pool } from './config/database.js';
 import errorHandler from './middleware/errorHandler.js';
 
-import estudianteRutas from './rutas/estudianteRutas.js';
-import profesorRutas from './rutas/profesorRutas.js';
+// RUTAS (corregir estas importaciones)
 import authRutas from './rutas/authRutas.js';
+import userRutas from './rutas/userRuta.js'; // Asegúrate que el nombre del archivo coincida
+import profesorRutas from './rutas/profesorRutas.js';
+import cursoRoutes from './rutas/cursoRutas.js';
 
 const app = express();
 
@@ -37,12 +39,13 @@ pool.connect((err, client, release) => {
   }
 });
 
-// Rutas
-app.use('/api/estudiante', estudianteRutas);
-app.use('/api/profesor', profesorRutas);
+// Rutas (orden importante)
 app.use('/api/auth', authRutas);
+app.use('/api/user', userRutas); // Esta debe estar antes que rutas más genéricas
+app.use('/api/profesor', profesorRutas);
+app.use('/api', cursoRoutes); // Esta ruta genérica debe ir al final
 
 // Manejo de errores
 app.use(errorHandler);
 
-export default app;
+export default app; // Eliminar el }; extra que estaba aquí
