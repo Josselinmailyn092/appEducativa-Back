@@ -1,6 +1,7 @@
 // src/controladores/userControlador.js
 import UserService from '../services/userService.js';
 
+// Asegurar que devuelve los datos en el formato correcto
 export const getProfile = async (req, res) => {
   try {
     const { id } = req.query;
@@ -21,9 +22,16 @@ export const getProfile = async (req, res) => {
       });
     }
 
+    // Formato consistente para el frontend
     res.json({
       success: true,
-      user
+      user: {
+        id: user.id,
+        nombres: user.nombres,
+        apellidos: user.apellidos,
+        email: user.email,
+        rol: user.rol_id // o user.rol según tu DB
+      }
     });
   } catch (error) {
     console.error('Error en userControlador.getProfile:', error);

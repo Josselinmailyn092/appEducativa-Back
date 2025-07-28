@@ -1,10 +1,14 @@
-// routes/cursoRoutes.js
 import { Router } from 'express';
-import { cursoController } from '../controladores/cursoControlador.js';
+import { 
+  getCursosByEstudiante, 
+  getCursosByProfesor,
+  createCurso
+} from '../controladores/cursoControlador.js';
 
 const router = Router();
 
-// Proteger esta ruta con autenticación
-router.get('/mis-cursos/:estudianteId', cursoController.getCursosByEstudiante);
+router.get('/estudiante/:estudianteId', getCursosByEstudiante);
+router.get('/profesor/:profesorId', getCursosByProfesor);
+router.post('/', createCurso);
 
 export default router;
