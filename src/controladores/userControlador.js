@@ -1,4 +1,3 @@
-// src/controladores/userControlador.js
 import UserService from '../services/userService.js';
 
 // Asegurar que devuelve los datos en el formato correcto

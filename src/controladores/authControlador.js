@@ -1,4 +1,3 @@
-// src/controladores/authControlador.js
 import Usuario from '../modelos/Usuario.js';
 
 export const login = async (req, res) => {

@@ -1,4 +1,3 @@
-// src/rutas/userRutas.js
 import { Router } from 'express';
 import { getProfile } from '../controladores/userControlador.js';
 
