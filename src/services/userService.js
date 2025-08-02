@@ -1,4 +1,3 @@
-// src/services/userService.js
 import Usuario from '../modelos/Usuario.js';
 
 class UserService {

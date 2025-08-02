@@ -1,4 +1,3 @@
-// src/rutas/authRutas.js
 import { Router } from 'express';
 import { login, logout } from '../controladores/authControlador.js';
 
