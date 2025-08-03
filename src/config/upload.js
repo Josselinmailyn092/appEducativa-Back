@@ -1,26 +1,31 @@
 import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import fs from 'fs';
 
-// Configuración para ES modules
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = path.dirname(__filename);
 
 // Configuración de almacenamiento
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    let uploadPath = path.join(__dirname, '../uploads');
+    const uploadsPath = path.join(__dirname, '..', '..', 'uploads');
+    let subfolder = '';
     
-    if (file.fieldname === 'materiales') {
-      uploadPath = path.join(uploadPath, 'materiales');
+    if (file.fieldname === 'material') {
+      subfolder = 'materiales';
     } else if (file.fieldname === 'entrega') {
-      uploadPath = path.join(uploadPath, 'entregas');
-    } else if (file.fieldname === 'avatar') {
-      uploadPath = path.join(uploadPath, 'avatars');
+      subfolder = 'entregas';
     }
     
-    cb(null, uploadPath);
+    const fullPath = path.join(uploadsPath, subfolder);
+    
+    // Crear directorio si no existe
+    if (!fs.existsSync(fullPath)) {
+      fs.mkdirSync(fullPath, { recursive: true });
+    }
+    
+    cb(null, fullPath);
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -35,20 +40,12 @@ const fileFilter = (req, file, cb) => {
     'material': [
       'application/pdf',
       'application/msword',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      'application/vnd.ms-powerpoint',
-      'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
     ],
     'entrega': [
       'application/pdf',
       'application/msword',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      'text/plain'
-    ],
-    'avatar': [
-      'image/jpeg',
-      'image/png',
-      'image/gif'
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
     ]
   };
 
@@ -70,14 +67,7 @@ const upload = multer({
 });
 
 // Middlewares específicos
-export const uploadMaterial = upload.fields([
-  { name: 'material', maxCount: 5 }
-]);
-
-export const uploadEntrega = upload.fields([
-  { name: 'entrega', maxCount: 3 }
-]);
-
-export const uploadAvatar = upload.single('avatar');
+export const uploadMaterial = upload.fields([{ name: 'material', maxCount: 5 }]);
+export const uploadEntrega = upload.fields([{ name: 'entrega', maxCount: 3 }]);
 
 export default upload;

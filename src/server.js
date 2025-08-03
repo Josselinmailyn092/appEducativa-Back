@@ -46,4 +46,4 @@ process.on('SIGINT', () => {
 startServer().catch(err => {
   console.error('Error al iniciar servidor:', err);
   process.exit(1);
-}) ;
+}) ;  
