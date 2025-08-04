@@ -10,9 +10,9 @@ const __dirname = dirname(__filename);
 // Configuración de almacenamiento
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    let uploadPath = path.join(__dirname, '../../uploads');
+    let uploadPath = path.join(__dirname, '../uploads');
     
-    if (file.fieldname === 'material') {
+    if (file.fieldname === 'materiales') {
       uploadPath = path.join(uploadPath, 'materiales');
     } else if (file.fieldname === 'entrega') {
       uploadPath = path.join(uploadPath, 'entregas');

@@ -6,11 +6,13 @@ import helmet from 'helmet';
 import bodyParser from 'body-parser';
 import { pool } from './config/database.js';
 import errorHandler from './middleware/errorHandler.js';
-
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
 // RUTAS (corregir estas importaciones)
 import authRutas from './rutas/authRutas.js';
 import userRutas from './rutas/userRuta.js'; // Asegúrate que el nombre del archivo coincida
-// import profesorRutas from './rutas/profesorRutas.js';
+import profesorRutas from './rutas/profesorRutas.js';
 import cursoRoutes from './rutas/cursoRutas.js';
 
 const app = express();
@@ -22,13 +24,14 @@ app.use(cors({
   origin: 'http://localhost:8100',
   credentials: true
 }));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Archivos estáticos
 app.use('/uploads', express.static('uploads'));
-
 // Conexión a la base de datos
 pool.connect((err, client, release) => {
   if (err) {
@@ -39,10 +42,9 @@ pool.connect((err, client, release) => {
   }
 });
 
-// Rutas (orden importante)
 app.use('/api/auth', authRutas);
 app.use('/api/user', userRutas); // Esta debe estar antes que rutas más genéricas
-// app.use('/api/profesor', profesorRutas);
+app.use('/api/profesor', profesorRutas);
 app.use('/api', cursoRoutes); // Esta ruta genérica debe ir al final
 
 // Manejo de errores
