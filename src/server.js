@@ -19,7 +19,7 @@ async function startServer() {
       console.error('Error del servidor:', error);
       process.exit(1);
     }
-  });
+  }); 
 
   server.on('listening', () => {
     const addr = server.address();

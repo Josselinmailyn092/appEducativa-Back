@@ -87,5 +87,7 @@ function setupUploadsFolder() {
 
 // Ejecutar la verificación
 setupUploadsFolder();
+console.log('Tipo de contraseña:', typeof process.env.DB_PASSWORD);
+console.log('Valor de contraseña:', process.env.DB_PASSWORD);
 
 export default app;
