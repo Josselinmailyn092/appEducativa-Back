@@ -29,7 +29,7 @@ const app = express();
 app.use(helmet());
 app.use(morgan('dev'));
 app.use(cors({
-  origin: 'http://localhost:4200',
+  origin: 'http://localhost:8100',
   credentials: true
 }));
 app.use(bodyParser.json());

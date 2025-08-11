@@ -1,6 +1,4 @@
 import app from './app.js';
-import http from 'http';
-import debug from 'debug';
 
 const PORT = process.env.PORT || 3000;
 const HOST = '0.0.0.0';
